@@ -1,0 +1,17 @@
+# Utilizar una imagen que simule el entorno de ejecución de AWS Lambda
+FROM lambci/lambda:build-python3.8
+
+# Establecer un directorio de trabajo
+WORKDIR /var/task
+
+# Asegurarse de que pip esté actualizado
+RUN python3.8 -m ensurepip && \
+    python3.8 -m pip install --upgrade pip && \
+    python3.8 -m pip --version
+
+# Copiar el archivo de requisitos y el código de la función
+COPY requirements.txt .
+COPY lambda_function.py .
+
+# Instalar las dependencias en el directorio de trabajo
+RUN pip install -r requirements.txt -t .
